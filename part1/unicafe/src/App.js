@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 const StatisticLine = (props) => {
+  //Prints the props values as "text" and "value"
   return (
     <tr>
       <td>{props.text}</td>
@@ -11,8 +12,10 @@ const StatisticLine = (props) => {
 
 const Statistics = (props) => {
   if (props.all === 0) {
+    //Checks if the props is null, if so prints a message
     return <div>No feedback given</div>;
   }
+  //Else sends the values to teh StatisticLine
   return (
     <table>
       <tbody>
@@ -28,14 +31,16 @@ const Statistics = (props) => {
 };
 
 const App = () => {
+  //useStates
   const [good, setGood] = useState(0);
   const [neutral, setNeutral] = useState(0);
   const [bad, setBad] = useState(0);
 
-  const handleGood = () => setGood(good + 1);
-  const handleNeutral = () => setNeutral(neutral + 1);
-  const handleBad = () => setBad(bad + 1);
+  const handleGood = () => setGood(good + 1); //Increase the value of good by 1
+  const handleNeutral = () => setNeutral(neutral + 1); //Increase the value of neutral by 1
+  const handleBad = () => setBad(bad + 1); //Increase the value of bad by 1
 
+  //Define consts
   const all = good + neutral + bad;
   const average = (good - bad) / all;
   const positive = (good / all) * 100 + " %";

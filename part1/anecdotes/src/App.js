@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 const App = () => {
+  //Array of anecdotes
   const anecdotes = [
     "If it hurts, do it more often.",
     "Adding manpower to a late software project makes it later!",
@@ -15,6 +16,7 @@ const App = () => {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState([0, 0, 0, 0, 0, 0, 0, 0]);
 
+  //Increase vote of the anecdote by 1
   const handleVote = () => {
     const copy = [...votes];
     copy[selected] += 1;
@@ -23,13 +25,12 @@ const App = () => {
     console.log(selected);
   };
 
+  //Sets a random anecdote from the array
   const random = () => {
     setSelected([Math.floor(Math.random() * anecdotes.length)]);
   };
 
-  //const mostVote = Math.max(votes);
-  //const mostVotedAnecdote = anecdotes[votes.indexOf(Math.max(votes))];
-
+  //Define consts
   const mostVote = votes.reduce((a, b) => Math.max(a, b), -Infinity);
   const mostVotedAnecdote = anecdotes[votes.indexOf(mostVote)];
 
