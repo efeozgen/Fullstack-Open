@@ -110,8 +110,6 @@ const App = () => {
     }
   };
 
-  const names = persons.map((person) => person.name);
-
   return (
     <div>
       <h2>Phonebook</h2>
