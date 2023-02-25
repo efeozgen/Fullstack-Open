@@ -1,4 +1,4 @@
-const NotSuccess = ({ successMessage }) => {
+const SuccessNotification = ({ successMessage }) => {
   if (successMessage === null) {
     return null;
   }
@@ -6,4 +6,4 @@ const NotSuccess = ({ successMessage }) => {
   return <div className="success">{successMessage}</div>;
 };
 
-export default NotSuccess;
+export default SuccessNotification;

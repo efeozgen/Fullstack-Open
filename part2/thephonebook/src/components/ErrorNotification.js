@@ -1,4 +1,4 @@
-const NotError = ({ errorMessage }) => {
+const ErrorNotification = ({ errorMessage }) => {
   if (errorMessage === null) {
     return null;
   }
@@ -6,4 +6,4 @@ const NotError = ({ errorMessage }) => {
   return <div className="error">{errorMessage}</div>;
 };
 
-export default NotError;
+export default ErrorNotification;

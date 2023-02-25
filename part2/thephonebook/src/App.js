@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
-import NotError from "./components/NotError";
-import NotSuccess from "./components/NotSuccess";
+import ErrorNotification from "./components/ErrorNotification";
+import SuccessNotification from "./components/SuccessNotification";
 import axios from "axios";
 import personService from "./services/persons";
 
@@ -21,6 +21,7 @@ const App = () => {
     });
   }, []);
 
+  //Deletes a Person
   const deletePerson = (id) => {
     const person = persons.filter((n) => n.id === id);
 
@@ -33,34 +34,42 @@ const App = () => {
     }
   };
 
+  //Follows the change in name
   const handleNameChange = (event) => {
     console.log(event.target.value);
     setNewName(event.target.value);
   };
 
+  //Follows the change in number
   const handleNumberChange = (event) => {
     console.log(event.target.value);
     setNewNumber(event.target.value);
   };
 
+  //Follos the change şn filter
   const handleFilterChange = (event) => {
     setNewFilter(event.target.value);
   };
 
+  //Adds a Person
   const addPerson = (event) => {
     event.preventDefault();
 
+    //Define a personObject
     const personObject = {
       name: newName,
       number: newNumber,
     };
 
+    //Checks if name or number is empty, if so prints a message
     if (newName === "" || newNumber === "") {
       window.alert(`Please enter name and number`);
     } else {
+      //Checks if the name has already in the phonebook
       if (
         persons.filter((person) => person.name === personObject.name).length > 0
       ) {
+        //Ask if the old number should change with the new one
         if (
           window.confirm(
             `${newName}  is already added the phonebook, replace the old number with a new one ? `
@@ -68,9 +77,11 @@ const App = () => {
         ) {
           const person = persons.find((n) => n.name === newName);
 
+          //Updates the number
           personService
             .update(person.id, { ...person, number: newNumber })
             .then((returnedPerson) => {
+              //If no error occurs, prints the success message
               setPersons(
                 persons.map((n) => (n.name === newName ? returnedPerson : n))
               );
@@ -82,6 +93,7 @@ const App = () => {
               }, 3000);
             })
             .catch((error) => {
+              //If an error occurs, prints the error message
               setErrorMessage(
                 `[ERROR]: Person is not found, might have been deleted`
               );
@@ -91,15 +103,18 @@ const App = () => {
             });
         }
       } else {
+        //Creates a new personObject
         personService
           .create(personObject)
           .then((newPerson) => {
+            //If no error occurs, prints the success message
             setPersons(persons.concat(newPerson));
             setSuccessMessage(`Person succesfully added`);
             setNewName("");
             setNewNumber("");
           })
           .catch((error) => {
+            //If an error occurs, prints an error message
             setErrorMessage(`${error.response.data.error}`);
           });
         setTimeout(() => {
@@ -113,8 +128,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <NotError errorMessage={errorMessage} />
-      <NotSuccess successMessage={successMessage} />
+      <ErrorNotification errorMessage={errorMessage} />
+      <SuccessNotification successMessage={successMessage} />
       <Filter value={newFilter} onChange={handleFilterChange} />
       <h2>add a new</h2>
       <PersonForm
